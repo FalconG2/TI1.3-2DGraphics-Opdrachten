@@ -44,6 +44,8 @@ public class Spirograph extends Application {
     
     
     public void draw(FXGraphics2D graphics) {
+        graphics.translate(1920/2,1080/2);
+        graphics.scale(1,-1);
         //you can use Double.parseDouble(v1.getText()) to get a double value from the first textfield
         //feel free to add more textfields or other controls if needed, but beware that swing components might clash in naming
     }
