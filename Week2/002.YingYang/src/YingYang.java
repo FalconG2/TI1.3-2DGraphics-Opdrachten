@@ -30,9 +30,25 @@ public class YingYang extends Application {
 
     public void draw(FXGraphics2D graphics)
     {
+        //TODO
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+        graphics.translate(1920/2,1080/2);
+
+        Area a = new Area(new Ellipse2D.Double(0,0,300,300));
+        Area b = new Area(new Ellipse2D.Double(0,0,300,300));
+        Area c = new Area(new Ellipse2D.Double(130,50,35,35));
+        Area d = new Area(new Ellipse2D.Double(130,225,35,35));
+
+        GeneralPath split = new GeneralPath();
+        split.moveTo(150,0);
+        split.curveTo(400,150,-100,150,150,300);
+
+        graphics.draw(a);
+        graphics.draw(d);
+        graphics.draw(c);
+        graphics.draw(split);
     }
 
 

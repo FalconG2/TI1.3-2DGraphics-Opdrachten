@@ -33,6 +33,23 @@ public class Mirror extends Application {
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+        graphics.translate(canvas.getWidth()/2,canvas.getHeight()/2);
+        graphics.scale(1,-1);
+        graphics.setColor(Color.BLACK);
+
+        graphics.draw(new Line2D.Double(-canvas.getWidth(),0,canvas.getWidth(),0));
+        graphics.draw(new Line2D.Double(0,-canvas.getHeight(),0,canvas.getHeight()));
+
+        // Na een beetje zitten spelen met de Scale en de translate heb ik nu een Vierkant waarvan het middelpunt 0,150 is.
+        // Ik ben erachter gekomen dat het punt in het vierkant nu linksonderin in het vierkant ligt.
+        Rectangle2D square = new Rectangle2D.Double(-50,100,100,100);
+        graphics.draw(square);
+
+        for (double x = -canvas.getWidth(); x <= canvas.getWidth(); x++){
+            double y = 2.5 * x;
+            graphics.draw(new Line2D.Double(0,0,x,y));
+        }
+
     }
 
 
