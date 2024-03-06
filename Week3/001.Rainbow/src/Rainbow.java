@@ -39,7 +39,7 @@ public class Rainbow extends Application {
 
         ArrayList<Shape> regenboog = new ArrayList<>();
 
-        Font font = new Font("Arial",Font.PLAIN,72);
+        Font font = new Font("Arial",Font.PLAIN,80);
 
         Shape R = font.createGlyphVector(graphics.getFontRenderContext(),"R").getOutline();
         Shape E = font.createGlyphVector(graphics.getFontRenderContext(),"E").getOutline();
@@ -50,9 +50,29 @@ public class Rainbow extends Application {
 
         regenboog.add(R); regenboog.add(E); regenboog.add(G); regenboog.add(E); regenboog.add(N); regenboog.add(B); regenboog.add(O); regenboog.add(O); regenboog.add(G);
 
+        // sinds we 9 letters in het woord regenboog hebben kunnen we deze mooi verdelen met de radialen, deze loopt van -90 naar 90 wat een gat is van 180 graden.
+        // Ik kan dus werken met stappen van 20.
+
+        double x = -90; // wordt gebruikt om in de loop de juiste radials te krijgen.
+        float i = (float)0.348; // dit is om de HSB in te stellen. we willen een halve cirkel wat PI is. Door deze door 9 te delen
+                          // wat de letters van de regenboog zijn, kunnen we deze in de loop inbouwen door dit als stapgrootte te nemen.
+
         for (Shape shape : regenboog){
-            AffineTransform tx = new AffineTransform();
+            AffineTransform rotate = new AffineTransform();
+
+            rotate.setToRotation(Math.toRadians(x));
+            rotate.translate(0,-150);
+
+            graphics.setColor(Color.getHSBColor(i/3.14f,1,1));
+
+            graphics.fill(rotate.createTransformedShape(shape));
+            graphics.draw(rotate.createTransformedShape(shape));
+
+            x += 20;
+            i += 0.348;
         }
+
+
     }
 
 

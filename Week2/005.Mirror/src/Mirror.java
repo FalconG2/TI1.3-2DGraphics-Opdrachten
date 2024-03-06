@@ -45,6 +45,11 @@ public class Mirror extends Application {
         Rectangle2D square = new Rectangle2D.Double(-50,100,100,100);
         graphics.draw(square);
 
+        // In de theorie van deze week staat deze formule.
+        AffineTransform transform = new AffineTransform();
+        transform.setTransform((2/(1+Math.pow(2.5, 2)))-1, ((2*2.5)/(1+Math.pow(2.5,2))), ((2*2.5)/(1+Math.pow(2.5,2))), ((2*Math.pow(2.5,2))/(1+Math.pow(2.5,2)) -1), 0, 0);
+        graphics.draw(transform.createTransformedShape(square));
+
         for (double x = -canvas.getWidth(); x <= canvas.getWidth(); x++){
             double y = 2.5 * x;
             graphics.draw(new Line2D.Double(0,0,x,y));

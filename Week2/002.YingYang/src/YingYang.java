@@ -30,25 +30,30 @@ public class YingYang extends Application {
 
     public void draw(FXGraphics2D graphics)
     {
-        //TODO
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
-        graphics.translate(1920/2,1080/2);
+        graphics.translate(canvas.getWidth()/2,canvas.getHeight()/2);
+        graphics.scale(1,-1);
 
-        Area a = new Area(new Ellipse2D.Double(0,0,300,300));
-        Area b = new Area(new Ellipse2D.Double(0,0,300,300));
-        Area c = new Area(new Ellipse2D.Double(130,50,35,35));
-        Area d = new Area(new Ellipse2D.Double(130,225,35,35));
+        // Main area is elipse
+        graphics.setColor(Color.BLACK);
+        graphics.draw(new Ellipse2D.Double(0,0,450,450));
 
-        GeneralPath split = new GeneralPath();
-        split.moveTo(150,0);
-        split.curveTo(400,150,-100,150,150,300);
+        // 3 delen general path curveTo werkt t zelfde als cubiccurve, de x3 en de y3 zijn de eindcoords.
+        GeneralPath path = new GeneralPath();
+        path.moveTo(225,450);
+        path.curveTo(390,430,390,245,225,225);
+        path.curveTo(60,205,60,20,225,0);
+        path.curveTo(525,15,525,435,225,450);
+        path.closePath();
+        graphics.fill(path);
+        graphics.draw(path);
 
-        graphics.draw(a);
-        graphics.draw(d);
-        graphics.draw(c);
-        graphics.draw(split);
+        // 2 normale cirkels in de main cirkel
+        graphics.fill(new Ellipse2D.Double(200,320,50,50));
+        graphics.setColor(Color.WHITE);
+        graphics.fill(new Ellipse2D.Double(200,90,50,50));
     }
 
 
