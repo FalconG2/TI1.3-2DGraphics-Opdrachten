@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.geom.*;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 
@@ -15,6 +16,7 @@ import org.jfree.fx.ResizableCanvas;
 
 public class BlockDrag extends Application {
     ResizableCanvas canvas;
+    private ArrayList<Block> blocks = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception
@@ -32,6 +34,9 @@ public class BlockDrag extends Application {
 
         draw(new FXGraphics2D(canvas.getGraphicsContext2D()));
     }
+    public void init(){
+        Block block = new Block(new Rectangle2D.Double(-50,-50,100,100),new Point2D.Double(400,400),Color.red);
+    }
 
 
     public void draw(FXGraphics2D graphics)
@@ -39,6 +44,8 @@ public class BlockDrag extends Application {
         graphics.setTransform(new AffineTransform());
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
+        graphics.translate(canvas.getWidth()/2,canvas.getHeight()/2);
+
     }
 
 
