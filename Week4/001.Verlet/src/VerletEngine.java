@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -69,7 +70,7 @@ public class VerletEngine extends Application {
 
     private void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
-        graphics.setBackground(Color.white);
+        graphics.setBackground(Color.BLACK);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
         for (Constraint c : constraints) {
@@ -109,13 +110,24 @@ public class VerletEngine extends Application {
                     return (int) (o1.getPosition().distance(mousePosition) - o2.getPosition().distance(mousePosition));
                 }
             });
-
-            constraints.add(new DistanceConstraint(newParticle, sorted.get(2)));
+            if (e.isShiftDown()){
+                constraints.add(new DistanceConstraint(newParticle, sorted.get(2)));
+            }
+            if (e.isControlDown()){
+                constraints.add(new DistanceConstraint(newParticle, sorted.get(1),100));
+                constraints.add(new DistanceConstraint(newParticle, sorted.get(2),100));
+            }
         } else if (e.getButton() == MouseButton.MIDDLE) {
-            // Reset
             particles.clear();
             constraints.clear();
             init();
+        }
+        //Set staticConstraint, hoeven niet te checken voor de primary mouse button aangezien dit al gebeurt aan het begin van de methode
+        else if (e.isControlDown()){
+            constraints.add(new StaticConstraint(newParticle));
+        }
+        else if (e.isShiftDown()){
+            constraints.add(new RopeConstraint(newParticle, nearest));
         }
     }
 
@@ -127,6 +139,29 @@ public class VerletEngine extends Application {
             }
         }
         return nearest;
+    }
+    private void saveFile(){
+        File destination = new File("Saves/VerletEngine.ser");
+        try {
+            FileOutputStream go = new FileOutputStream(destination);
+            ObjectOutputStream go2 = new ObjectOutputStream(go);
+            go2.writeObject(particles);
+            go2.writeObject(constraints);
+            go2.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    private void loadFile(){
+        String path = "Saves/VerletEngine.ser";
+        try {
+            FileInputStream inputStream = new FileInputStream(path);
+            ObjectInputStream objectInput = new ObjectInputStream(inputStream);
+            particles = (ArrayList<Particle>) objectInput.readObject();
+            constraints = (ArrayList<Constraint>) objectInput.readObject();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void mousePressed(MouseEvent e) {

@@ -28,11 +28,6 @@ public class GradientPaintExercise extends Application {
         primaryStage.setScene(new Scene(mainPane));
         primaryStage.setTitle("GradientPaint");
         primaryStage.show();
-        draw(new FXGraphics2D(canvas.getGraphicsContext2D()));
-        canvas.setOnMouseDragged(event -> {
-            mouseCenter.setLocation(event.getX(),event.getY());
-            draw(new FXGraphics2D(canvas.getGraphicsContext2D()));
-        });
     }
 
 
@@ -42,15 +37,20 @@ public class GradientPaintExercise extends Application {
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
+        Rectangle2D rectangle2D = new Rectangle2D.Double(0,0,canvas.getWidth(),canvas.getHeight());
+
         float radius = 50;
         float[] dist = {0.3f,0.8f,1.0f};
         Color[] colors = {Color.red, Color.green, Color.blue};
 
-        RadialGradientPaint p = new RadialGradientPaint(mouseCenter,radius,dist,colors, MultipleGradientPaint.CycleMethod.REFLECT);
+        canvas.setOnMouseDragged(MouseEvent -> {
+            mouseCenter = new Point2D.Double(MouseEvent.getX(), MouseEvent.getY());
+            RadialGradientPaint f = new RadialGradientPaint(mouseCenter,radius,dist,colors, MultipleGradientPaint.CycleMethod.REFLECT);
+            graphics.setPaint(f);
+            graphics.fill(rectangle2D);
+            graphics.draw(rectangle2D);
+        });
 
-        Rectangle2D rectangle2D = new Rectangle2D.Double(0,0,1920,1080);
-        graphics.setPaint(p);
-        graphics.draw(rectangle2D);
     }
 
 
