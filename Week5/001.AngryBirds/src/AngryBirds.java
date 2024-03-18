@@ -1,18 +1,21 @@
-
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Geometry;
+import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 public class AngryBirds extends Application {
 
@@ -65,11 +68,21 @@ public class AngryBirds extends Application {
     public void init() {
         world = new World();
         world.setGravity(new Vector2(0, -9.8));
+
+        Body background = new Body();
+        gameObjects.add(new GameObject("/AB.jpg",background, new Vector2(0,0),1.0));
+
+        Body platform = new Body();
+        BodyFixture bodyFixture = new BodyFixture(Geometry.createRectangle(25.5,0.1));
+        platform.getTransform().setTranslation(0,-5.25);
+        platform.addFixture(bodyFixture);
+        platform.setMass(MassType.INFINITE);
+        world.addBody(platform);
     }
 
     public void draw(FXGraphics2D graphics) {
         graphics.setTransform(new AffineTransform());
-        graphics.setBackground(Color.white);
+        graphics.setBackground(Color.WHITE);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
         AffineTransform originalTransform = graphics.getTransform();
