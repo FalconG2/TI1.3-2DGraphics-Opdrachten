@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -21,6 +23,8 @@ import org.jfree.fx.ResizableCanvas;
 
 public class Spotlight extends Application {
     private ResizableCanvas canvas;
+    private double mousePosX;
+    private double mousePosY;
     private BufferedImage jesko;
 
     @Override
@@ -31,25 +35,25 @@ public class Spotlight extends Application {
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
-        new AnimationTimer() {
-            long last = -1;
 
-            @Override
-            public void handle(long now)
-            {
-                if (last == -1)
-                    last = now;
-                update((now - last) / 1000000000.0);
-                last = now;
-                draw(g2d);
-            }
-        }.start();
-
+        canvas.setOnMouseMoved(event -> {
+            mousePosX = event.getX();
+            mousePosY = event.getY();
+            draw(g2d);
+        });
         stage.setScene(new Scene(mainPane));
         stage.setTitle("Spotlight");
         stage.show();
         draw(g2d);
+
+        try{
+            jesko = ImageIO.read(getClass().getResource("/images/jesko.jpg"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
+
 
 
     public void draw(FXGraphics2D graphics)
@@ -58,34 +62,13 @@ public class Spotlight extends Application {
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
-        Shape shape = new Rectangle2D.Double(-25,-25,50,50);
-        Rectangle2D screen = new Rectangle2D.Double(0,0,canvas.getWidth(),canvas.getHeight());
+        graphics.draw(new Rectangle2D.Double(mousePosX-250, mousePosY-250, 500, 500));
+        graphics.setClip(new Rectangle2D.Double(mousePosX-250, mousePosY-250, 500, 500));
 
-        canvas.setOnMouseMoved(e -> {
-            AffineTransform tx = new AffineTransform();
-            tx.translate(e.getX(),e.getY());
-            graphics.setClip(tx.createTransformedShape(shape));
-            graphics.draw(tx.createTransformedShape(shape));
-            graphics.clip(screen);
-        });
-        graphics.setPaint(new TexturePaint(jesko,screen));
+        graphics.drawImage(jesko,null,null);
 
-
-
-    }
-
-    public void init()
-    {
-        try {
-            jesko = ImageIO.read(getClass().getResource("/images/Jesko.jpg"));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void update(double deltaTime)
-    {
-
+        graphics.setClip(null);
+        graphics.setColor(Color.BLACK);
     }
 
     public static void main(String[] args)
