@@ -78,6 +78,10 @@ public class AngryBirds extends Application {
         platform.addFixture(bodyFixture);
         platform.setMass(MassType.INFINITE);
         world.addBody(platform);
+
+        Body sling = new Body();
+        sling.getTransform().setTranslation(-10,-5.25);
+        gameObjects.add(new GameObject("/ABSling.png",sling,new Vector2(0,0),1.0));
     }
 
     public void draw(FXGraphics2D graphics) {

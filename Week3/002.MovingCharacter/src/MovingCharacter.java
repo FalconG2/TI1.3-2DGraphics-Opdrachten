@@ -20,6 +20,10 @@ import org.jfree.fx.ResizableCanvas;
 
 public class MovingCharacter extends Application {
     private ResizableCanvas canvas;
+    private double posX = 100;
+    private double posY = 300;
+    private double speed = 50;
+    private int walkAnimation = 32;
 
 
     @Override
@@ -50,23 +54,23 @@ public class MovingCharacter extends Application {
         stage.show();
         draw(g2d);
     }
-    //Ik heb in de voorbeeldopgaven gekeken naar wat handig is. Ik heb besloten om een array te maken voor het lopen en voor het springen.
-    //Hiervoor is het handiger als ik van de afbeelding rijen kies die ik wil gebruiken, in plaats van een array met 65 afbeeldingen.
-    //Voor het lopen lijkt mij rij 5 het best om te gebruiken. Dit zijn locaties 32 tot 39 in de array.
     BufferedImage[] images;
     public void init(){
         try {
             BufferedImage image = ImageIO.read(getClass().getResource("/images/sprite.png"));
             images = new BufferedImage[65];
             for (int i = 0; i < 65; i++){
-                images[i] = image.getSubimage(64 * i,0,64,64);
+                images[i] = image.getSubimage(64 * (i%8),64 * (i/8),64,64);
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-
     }
-    int part = 32;
+    double forward = 1;
+    double backward = 1;
+    boolean direction = true;
+    //Hij moonwalked nu, kom niet uit het draaien van de images. heb dit geprobeerd met scale, en op YT opgezocht hoe men dat zou moeten doen
+    //Dat was code die niet echt goed toegepast kan worden omdat hier gebruik gemaakt  wordt van nesting
 
     public void draw(FXGraphics2D graphics)
     {
@@ -74,31 +78,46 @@ public class MovingCharacter extends Application {
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, (int) canvas.getWidth(), (int) canvas.getHeight());
 
-        AffineTransform transform = new AffineTransform();
-        transform.translate(positionX, 200);
-
-        if (part == 39){
-            part = 32;
+        if (posX + 100 >= canvas.getWidth()){
+            direction = false;
         }
-        graphics.drawImage(images[part],transform,null);
-        part++;
+        if (posX <= 0){
+            direction = true;
+        }
+        if (direction){
+            posX += forward;
+            AffineTransform tx = new AffineTransform();
+            tx.translate(posX, posY);
+            graphics.drawImage(images[walkAnimation],tx,null);
+        }
+        if (!direction){
+            posX -= backward;
+            AffineTransform tx = new AffineTransform();
+            tx.translate(posX, posY);
+            graphics.drawImage(images[walkAnimation],tx,null);
+        }
     }
+    int i = 0;
 
-    double positionX = 0;
     public void update(double deltaTime)
     {
-        positionX+=4;
-        if (positionX > 1920){
-            positionX = 0;
+        this.posX += speed * deltaTime;
+        i++;
+        if (i % 20 == 0){
+            this.walkAnimation++;
         }
-        if (positionX < 0){
-            positionX = 1920;
+        if (walkAnimation > 39){
+            this.walkAnimation = 32;
         }
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e1){
-        e1.printStackTrace();
+        if (posX + 64 > canvas.getWidth()){
+            posX = canvas.getWidth() - 64;
+            speed -= speed;
         }
+        if (posX < 0){
+            posX = 0;
+            speed = Math.abs(speed);
+        }
+
     }
 
     public static void main(String[] args)

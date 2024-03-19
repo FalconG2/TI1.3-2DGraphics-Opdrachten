@@ -91,6 +91,8 @@ public class VerletEngine extends Application {
             c.satisfy();
         }
     }
+    // Ik ben niet gekomen uit de doek constraint, heb bij meerdere medestudenten gekeken maar kom er niet aan uit :(.
+    // Door dit heb ik geen knoppen toegevoegd aan de save mogelijkheid maar heb alleen de methoden gemaakt.
 
     private void mouseClicked(MouseEvent e) {
         Point2D mousePosition = new Point2D.Double(e.getX(), e.getY());
@@ -118,6 +120,26 @@ public class VerletEngine extends Application {
                 constraints.add(new DistanceConstraint(newParticle, sorted.get(2),100));
             }
         } else if (e.getButton() == MouseButton.MIDDLE) {
+            if (e.isShiftDown()){
+
+                for (int i = 0; i < 10; i++){
+                    for (int j = 0; j < 10; j++){
+                        Particle doek = new Particle(new Point2D.Double(100 * i + 50, 100 * j + 50));
+                        particles.add(doek);
+                        if (j == 0){
+                            constraints.add(new PositionConstraint(doek));
+                        }
+                        if (j > 0){
+                            Particle top = particles.get((i * 10) + (j - 1));
+                            constraints.add(new RopeConstraint(doek,top));
+                        }
+                    }
+                }
+                for (int i = 0; i < 90; i++){
+                    constraints.add(new RopeConstraint(particles.get(i), particles.get(i + 10)));
+                }
+                constraints.add(mouseConstraint);
+            } else
             particles.clear();
             constraints.clear();
             init();
