@@ -1,6 +1,7 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -52,6 +53,9 @@ public class AngryBirds extends Application {
         });
         mainPane.setTop(showDebug);
 
+
+
+
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
@@ -101,6 +105,8 @@ public class AngryBirds extends Application {
         Body background = new Body();
         Body platform = new Body();
         Body sling = new Body();
+        Body pig = new Body();
+        Body pig2 = new Body();
 
         BodyFixture bodyFixture = new BodyFixture(Geometry.createRectangle(25.5,0.1));
         BodyFixture slingPole = new BodyFixture(Geometry.createRectangle(0.1,1.5));
@@ -121,13 +127,27 @@ public class AngryBirds extends Application {
         bird.setMass(MassType.NORMAL);
         bird.getFixture(0).setRestitution(0.1);
 
+        pig.addFixture(Geometry.createCircle(0.24));
+        pig.getTransform().setTranslation(5.5,-2.5);
+        pig.setMass(MassType.NORMAL);
+        pig.getFixture(0).setRestitution(0.0);
+
+        pig2.addFixture(Geometry.createCircle(0.24));
+        pig2.getTransform().setTranslation(4.5,0.5);
+        pig2.setMass(MassType.NORMAL);
+        pig.getFixture(0).setRestitution(0.0);
+
         world.addBody(platform);
         world.addBody(sling);
         world.addBody(bird);
+        world.addBody(pig);
+        world.addBody(pig2);
 
         gameObjects.add(new GameObject("/AB.jpg",background, new Vector2(0,0),1.0));
         gameObjects.add(new GameObject("/Sling.png",sling,new Vector2(-320,-1000),0.03));
         gameObjects.add(new GameObject("/BIRB.png",bird,new Vector2(0,-100),0.08));
+        gameObjects.add(new GameObject("/Pig.png",pig,new Vector2(0,0),0.08));
+        gameObjects.add(new GameObject("/Pig.png",pig2,new Vector2(0,0),0.08));
 
         // De vorm van de toren wordt een piramide, de eerste for i loops worden de verticale beams en de onderste for loops de horizontale.
         for (double x = 2; x <= 7; x += 1) {
@@ -167,7 +187,7 @@ public class AngryBirds extends Application {
             verBeams = new Body();
             verBeams.addFixture(verBeamsFix);
             verBeams.setMass(MassType.NORMAL);
-            verBeams.getTransform().setTranslation(x,0.7);
+            verBeams.getTransform().setTranslation(x,0.5);
             world.addBody(verBeams);
             verBeamsPaint.add(new GameObject("/wood.jpg",verBeams,new Vector2(0,0),0.025));
         }
@@ -202,7 +222,7 @@ public class AngryBirds extends Application {
             horBeams = new Body();
             horBeams.addFixture(horBeamsFix);
             horBeams.setMass(MassType.NORMAL);
-            horBeams.getTransform().setTranslation(x,0);
+            horBeams.getTransform().setTranslation(x,0.1);
             world.addBody(horBeams);
             horBeamsPaint.add(new GameObject("/wood.jpg",horBeams, new Vector2(0,0),0.025));
         }
@@ -234,7 +254,7 @@ public class AngryBirds extends Application {
             go.horDraw(graphics);
         }
 
-        if (!debugSelected) {
+        if (debugSelected) {
             graphics.setColor(Color.blue);
             DebugDraw.draw(graphics, world, 100);
         }
