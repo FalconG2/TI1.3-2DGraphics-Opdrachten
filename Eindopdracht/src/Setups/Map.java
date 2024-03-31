@@ -3,8 +3,6 @@ package Setups;
 import LinePrep.Line;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Map extends MapSetup{
@@ -16,9 +14,9 @@ public class Map extends MapSetup{
         this.lines.add(new Line(new Point2D.Double(WIDTH,0), new Point2D.Double(WIDTH,HEIGHT)));
         this.lines.add(new Line(new Point2D.Double(WIDTH,HEIGHT), new Point2D.Double(0,HEIGHT)));
         this.lines.add(new Line(new Point2D.Double(0, HEIGHT), new Point2D.Double(0,0)));
-        this.lines.add(new Line(new Point2D.Double(100,100),new Point2D.Double(200,300)));
-        this.lines.add(new Line(new Point2D.Double(460,200), new Point2D.Double(600,300)));
-        this.lines.add(new Line(new Point2D.Double(300,90), new Point2D.Double(400,100)));
+        this.lines.add(new Line(new Point2D.Double(50,100),new Point2D.Double(250,300)));
+        this.lines.add(new Line(new Point2D.Double(490,110), new Point2D.Double(600,460)));
+        this.lines.add(new Line(new Point2D.Double(300,190), new Point2D.Double(400,100)));
         this.lines.add(new Line(new Point2D.Double(250,400), new Point2D.Double(350,350)));
         this.lines.add(new Line(new Point2D.Double(1000,800), new Point2D.Double(1000,500)));
         this.lines.add(new Line(new Point2D.Double(1200,733), new Point2D.Double(1500,910)));

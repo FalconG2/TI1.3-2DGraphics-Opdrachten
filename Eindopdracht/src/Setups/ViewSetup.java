@@ -4,14 +4,10 @@ import Interfaces.Drawable;
 import Interfaces.View;
 import Lead.RenderEngine;
 import LinePrep.Line;
-import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.BorderPane;
-import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
-import javax.swing.border.Border;
-import java.awt.*;
+
 import java.util.ArrayList;
 import java.util.List;
 

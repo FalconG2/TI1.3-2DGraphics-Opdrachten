@@ -2,7 +2,6 @@ package Lead;
 
 import LinePrep.Line;
 import Setups.Map;
-import Setups.MapSetup;
 import Setups.ViewSetup;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -11,7 +10,7 @@ import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.List;
+
 
 public class MouseFollowDisplay extends ViewSetup {
     public void init(){

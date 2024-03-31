@@ -3,7 +3,6 @@ package LinePrep;
 import java.awt.geom.Point2D;
 
 public final class MathPoint {
-    public Point2D vector = new Point2D.Double(1,0);
 
     public static Point2D add(Point2D point1, Point2D point2){
         return new Point2D.Double(point1.getX() + point2.getX(), point1.getY() + point2.getY());

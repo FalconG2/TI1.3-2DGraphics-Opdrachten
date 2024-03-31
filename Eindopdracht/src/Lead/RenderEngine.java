@@ -25,12 +25,6 @@ public class RenderEngine implements Drawable, Updatable {
     public void setPosition(Point2D position){
         this.raySetup.setPos(position);
     }
-    public void setAngle(double angle){
-        this.raySetup.setAngle(angle);
-    }
-    public Point2D getPosition(){
-        return this.raySetup.getPos();
-    }
     public void draw(FXGraphics2D graphics){
         this.renderSetup.draw(graphics);
     }

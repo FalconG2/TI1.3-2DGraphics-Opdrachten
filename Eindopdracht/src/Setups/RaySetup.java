@@ -84,13 +84,8 @@ abstract public class RaySetup implements Updatable {
         }
         return angle;
     }
-    public void setAngle(double angle){
-        this.angle = angle;
-    }
     public void setPos(Point2D pos){
         this.pos = pos;
     }
-    public Point2D getPos (){
-        return this.pos;
-    }
+
 }
