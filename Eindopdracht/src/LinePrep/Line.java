@@ -17,6 +17,8 @@ public class Line {
         this.startingPos = new Point2D.Double(x1,y1);
         this.endingPos = new Point2D.Double(x2,y2);
     }
+    // this is where the lines are created that are drawn on the screen. with these methods we will also check whether there is a collision
+    // in the direction the lines are pointed towards.
     public Point2D getStartingPos(){
         return startingPos;
     }

@@ -11,6 +11,8 @@ public class DrawEngine extends RenderSetup {
     public DrawEngine(List<Line> rays){
         super(rays);
     }
+    // to fill in the shapes that are created with the collisions we need shapes. those shapes are created here and also drawn here
+    // we can fill these shapes with the preffered color so that its visible which areas are visible from the point where the mouse is located.
     public void update(){
         this.drawing.clear();
 

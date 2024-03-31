@@ -17,6 +17,7 @@ public class CastingEngine extends RaySetup {
         }
         this.rays.clear();
 
+        // to create the beams, we need an offset with our position. this way we can create a sort of beam to check them.
         for (Line line : this.lines){
             for(Point2D point : line.getPoints()){
                 Point2D mousePos = MathPoint.substract(point, this.pos);

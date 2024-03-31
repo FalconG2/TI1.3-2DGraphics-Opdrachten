@@ -32,7 +32,6 @@ public class Eindopdracht extends Application {
         primaryStage.setScene(new Scene(pane));
         primaryStage.setTitle("Collin van der Pluijm - Eindopdracht");
         primaryStage.show();
-
     }
 }
 

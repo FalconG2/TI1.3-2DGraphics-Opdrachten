@@ -23,7 +23,7 @@ abstract public class RaySetup implements Updatable {
         checkrays();
         sortrays();
     }
-
+    // to check the rays and their collision the following method is implemented to do so.
     public void checkrays() {
         for (Line ray : this.rays) {
             double closest = 1000000;
@@ -44,6 +44,8 @@ abstract public class RaySetup implements Updatable {
             ray.setEndingPos(endPoint);
         }
     }
+    // this part is from a site i received this information from Jayson
+    // the site is: https://ncase.me/sight-and-light/
     public Point2D getIntersection(Line x, Line y){
         if (MathPoint.normalize(x.getDirec()).equals(MathPoint.normalize(y.getDirec()))){
             return null;
